@@ -6,10 +6,10 @@ from sly import Lexer
 
 
 class Scanner(Lexer):
-    tokens = { ID, INTNUM, FLOAT, IF, ELSE, WHILE, FOR, EYE, ZEROS, ONES, PRINT, PLUSASSIGN, MINUSASSIGN,
-        TIMESASSIGN, DIVIDEASSIGN,
+    tokens = { ID, INTNUM, FLOAT, IF, ELSE, WHILE, FOR, EYE, ZEROS, ONES, PRINT, ADDASSIGN, SUBASSIGN,
+        MULASSIGN, DIVASSIGN,
         LESS, GREATER, LESSEQ, GREATEREQ,
-        NOTEQ, EQEQ }
+        NOTEQ, EQEQ, DOTADD, DOTSUB, DOTMUL, DOTDIV }
 
     # Regular expression rules for tokens
     ID = r'[a-zA-Z_][a-zA-Z0-9_]*'
@@ -27,16 +27,16 @@ class Scanner(Lexer):
 
     FLOAT = r'\d*\.\d+'
     INTNUM = r'\d+'
-    # MPLUS = r'.+'
-    # MMINUS = r'.-'
-    # MTIMES = r'.\*'
-    # MDIVIDE = r'./'
+    DOTADD = r'.\+'
+    DOTSUB = r'.-'
+    DOTMUL = r'.\*'
+    DOTDIV = r'./'
 
     # Assignment operators
-    PLUSASSIGN = r'\+='
-    MINUSASSIGN = r'-='
-    TIMESASSIGN = r'\*='
-    DIVIDEASSIGN = r'/='
+    ADDASSIGN = r'\+='
+    SUBASSIGN = r'-='
+    MULASSIGN = r'\*='
+    DIVASSIGN = r'/='
 
     # Relational operators
     LESS = r'<'
@@ -52,7 +52,7 @@ class Scanner(Lexer):
 
     # Other ignored patterns
     ignore_comment = r'\#.*'
-    ignore_newline = r'\n+'
+    ignore_newline = r'[\r\n]+'
 
     # Extra action for newlines
     def ignore_newline(self, t):

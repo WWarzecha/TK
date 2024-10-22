@@ -61,6 +61,9 @@ class Scanner(Lexer):
     def ignore_newline(self, t):
         self.lineno += t.value.count('\n')
 
+    def INTNUM(self,t):
+        t.value = int(t.value)
+
     def error(self, t):
         print("Illegal character '%s'" % t.value[0])
         self.index += 1

@@ -26,10 +26,8 @@ class Scanner(Lexer):
     ID['ones'] = ONES
     ID['print'] = PRINT
 
-    literals = {'=', '+', '-', '*', '/', '(', ')', '[', ']', '{', '}', ',', ';', '\''}
+    literals = {'=', '+', '-', '*', '/', '(', ')', '[', ']', '{', '}', ',', ';', '\'', '<', '>'}
 
-    FLOAT = r'\d*\.\d*'
-    INTNUM = r'\d+'
     STRING = r'\".*?\"'
     DOTADD = r'\.\+'
     DOTSUB = r'\.-'
@@ -43,8 +41,6 @@ class Scanner(Lexer):
     DIVASSIGN = r'/='
 
     # Relational operators
-    LESS = r'<'
-    GREATER = r'>'
     LESSEQ = r'<='
     GREATEREQ = r'>='
     NOTEQ = r'!='
@@ -55,14 +51,20 @@ class Scanner(Lexer):
 
     # Other ignored patterns
     ignore_comment = r'\#.*'
-    ignore_newline = r'[\r\n]+'
 
     # Extra action for newlines
+    @_(r'[\r\n]+')
     def ignore_newline(self, t):
         self.lineno += t.value.count('\n')
 
-    def INTNUM(self,t):
+    @_(r'\d+')
+    def INTNUM(self, t):
         t.value = int(t.value)
+
+    @_(r'(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)?')
+    def FLOAT(self, t):
+        t.value = float(t.value)
+    
 
     def error(self, t):
         print("Illegal character '%s'" % t.value[0])

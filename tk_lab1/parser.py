@@ -7,14 +7,15 @@ class MatrixParser(Parser):
 
     variables = {}
 
-    @_('ID "=" expr')
-    def statement(self,p):
-        MatrixParser.variables[p.ID] = p.expr
-        return f'{p.ID} = {p.expr}'
+
+    @_('expr "+" term')
+    def expr(self,p):
+        return p.expr + p.term
     
-    @_('"(" expr ")"')
-    def factor(self,p):
-        return p.expr
+    @_('term')
+    def expr(self,p):
+        return p.term
+
 
     # Error handling
     def error(self, p):
